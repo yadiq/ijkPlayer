@@ -18,13 +18,6 @@ android {
             //abiFilters "x86"
             //abiFilters "x86_64"//友盟推送不支持
         }
-        /*externalNativeBuild {
-            cmake {
-                cppFlags "-std=c++11 -frtti -fexceptions"
-                //目标平台，若需要更多平台的请自行配置
-                //abiFilters 'armeabi'
-            }
-        }*/
     }
     buildFeatures {
         viewBinding = true
@@ -34,13 +27,11 @@ android {
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
         release {
             minifyEnabled false // 启用代码压缩、优化及混淆
             shrinkResources false // 启用资源压缩，需配合 minifyEnabled=true 使用
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' // 指定混淆保留规则
-            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -59,21 +50,6 @@ android {
             outputFileName = fileName
         }
     }
-    //开启动态库编译
-    /*externalNativeBuild {
-        ndkBuild {
-            path file('src/main/jni_test/Android.mk')
-        }
-    }*/
-    /*externalNativeBuild {
-        cmake {
-            //path file('src/main/jni_test/CMakeLists.txt')
-            path file('src/main/jni_secret_whhonggu/CMakeLists.txt')
-            //path file('src/main/jni_secret_realfly/CMakeLists.txt')
-            //path file('src/main/jni_anti/CMakeLists.txt')
-            version '3.22.1'
-        }
-    }*/
 }
 
 dependencies {
