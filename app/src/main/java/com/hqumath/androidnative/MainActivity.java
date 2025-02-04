@@ -4,9 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.hqumath.androidnative.databinding.ActivityMainBinding;
 import com.hqumath.androidnative.utils.CommonUtil;
 import com.hqumath.androidnative.utils.FileUtil;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         CommonUtil.init(this);
+        Glide.with(this).load(R.drawable.icon_loading).into(binding.ivLoadingVideo1);
+
         //事件监听
         initListener();
         //初始化数据
@@ -102,15 +106,19 @@ public class MainActivity extends AppCompatActivity {
     public void initData() {
         //测试地址
         //String url = "https://media.w3.org/2010/05/sintel/trailer.mp4";
-        //String url = "http://vjs.zencdn.net/v/oceans.mp4";
-        String url = "http://150.138.8.143/00/SNM/CHANNEL00000311/index.m3u8";
+        String url = "http://vjs.zencdn.net/v/oceans.mp4";
+        //String url = "http://150.138.8.143/00/SNM/CHANNEL00000311/index.m3u8";
 
         videoHelper = new IjkVideo();
         videoHelper.init(url, binding.renderView, new IjkVideo.VideoListener() {
 
             @Override
             public void showLoading(boolean isShow) {
-
+                if (isShow) {
+                    binding.getRoot().post(() -> binding.ivLoadingVideo1.setVisibility(View.VISIBLE));
+                } else {
+                    binding.getRoot().postDelayed(() -> binding.ivLoadingVideo1.setVisibility(View.GONE), 500);//低性能手机，loading隐藏失败
+                }
             }
 
             @Override

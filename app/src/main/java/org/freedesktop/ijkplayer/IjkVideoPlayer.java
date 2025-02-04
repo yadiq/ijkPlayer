@@ -136,7 +136,7 @@ public class IjkVideoPlayer {
         //允许不符合规范的加速技巧 (0, 0, 1)
         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "fast", 1);//实际不能降低延迟
         //不要限制输入缓冲区大小（对实时流有用） (0, 0, 1)
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "infbuf", 1);//不要限制输入缓冲区大小（用于实时流）
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "infbuf", 0);//1 不要限制输入缓冲区大小（用于实时流）TODO
         //当CPU处理不过来的时候的丢帧帧数，(0, -1, 120)
         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 120);//实际未使用
         //读取并解码流，用启发式方法填充缺失的信息 (1, 0, 1)
@@ -154,7 +154,7 @@ public class IjkVideoPlayer {
         //ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "min-frames", 2);//非直播时使用
         //暂停输出，直到在暂停后读取了足够的数据包 (1, 0, 1)
         //关闭播放器缓冲，这个必须关闭，否则会出现播放一段时间后，一直卡主，控制台打印 FFP_MSG_BUFFERING_START
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 0);//关闭缓冲区
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 1);//0 关闭缓冲区 TODO
         //自己添加 max_cached_duration https://www.jianshu.com/p/d6a5d8756eec (已通过去掉音视频同步实现，收到数据立即解码播放）
         //ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max_cached_duration", 30);//最大缓存大小,解决因网络抖动引起缓冲区变大
         //ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "sync", "ext");//尝试保持实时
