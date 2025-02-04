@@ -1,0 +1,87 @@
+apply plugin: 'com.android.application'
+
+android {
+    //ndkVersion '21.4.7075529'//gstreamer指定版本21
+    compileSdkVersion 29
+
+    defaultConfig {
+        applicationId "com.hqumath.mvpdemo"
+        minSdkVersion 21//so加固时限制21
+        //noinspection ExpiredTargetSdkVersion
+        targetSdkVersion 29
+        versionCode 20210902
+        versionName "1.1"
+        //multiDexEnabled true
+        ndk {
+            abiFilters "arm64-v8a"//主流手机
+            //abiFilters "armeabi-v7a"//电视盒子
+            //abiFilters "x86"
+            //abiFilters "x86_64"//友盟推送不支持
+        }
+        /*externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11 -frtti -fexceptions"
+                //目标平台，若需要更多平台的请自行配置
+                //abiFilters 'armeabi'
+            }
+        }*/
+    }
+    buildFeatures {
+        viewBinding = true
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        release {
+            minifyEnabled false // 启用代码压缩、优化及混淆
+            shrinkResources false // 启用资源压缩，需配合 minifyEnabled=true 使用
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' // 指定混淆保留规则
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    //配置自定义打包名称
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName
+            if (variant.buildType.name.equals('release')) {
+                fileName = "MVPDemo_${variant.mergedFlavor.versionName}_${variant.mergedFlavor.versionCode}.apk"
+            } else if (variant.buildType.name.equals('debug')) {
+                fileName = "MVPDemo_${variant.mergedFlavor.versionName}_debug_${variant.mergedFlavor.versionCode}.apk"
+            }
+            outputFileName = fileName
+        }
+    }
+    //开启动态库编译
+    /*externalNativeBuild {
+        ndkBuild {
+            path file('src/main/jni_test/Android.mk')
+        }
+    }*/
+    /*externalNativeBuild {
+        cmake {
+            //path file('src/main/jni_test/CMakeLists.txt')
+            path file('src/main/jni_secret_whhonggu/CMakeLists.txt')
+            //path file('src/main/jni_secret_realfly/CMakeLists.txt')
+            //path file('src/main/jni_anti/CMakeLists.txt')
+            version '3.22.1'
+        }
+    }*/
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    //picture
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    //annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    //视频播放器
+    implementation project(path: ':ijkplayer')
+}
